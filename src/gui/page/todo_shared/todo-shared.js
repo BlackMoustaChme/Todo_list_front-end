@@ -26,7 +26,7 @@ import {
     useMessageReceivedStatusDispatcher,
     useInfoUpdatedStatusListener,
     useInfoUpdatedStatusDispatcher,
-    useSendNotificationDispatcher, useMessageListener, useReceiveMessageInitializer
+    useSendNotificationDispatcher
 } from "../../../vm/redux/api.js";
 import Button from "../../component/button/button.js"
 import ErrorSpan from "../../component/error-span/error-span";
@@ -34,7 +34,7 @@ import Tile from "../../composition/tile/tile.js";
 import Column from "../../component/column/column";
 import RedactingField from "../../composition/redacting-field/redacting-field";
 import Notification from "../../composition/notification/notification";
-// import counter from "../../../core/api/webSocketProbe";
+import counter from "../../../core/api/webSocket.mjs";
 
 function TodoMain() {
 
@@ -63,15 +63,12 @@ function TodoMain() {
 
     const notifyServer = useSendNotificationDispatcher()
 
-    const receiveMessageInitializer = useReceiveMessageInitializer()
-
 
     // Если в callback написать return то этот хук будет вызываться при unmount'е
     // С deps'ами он становится хуком обновления компонента
     // В голом виде это хук при mount'е
     useEffect(() => {
         todoDispatcher()
-        notifyServer()
         if(!isAuth){
             navigate('/');
         }
@@ -79,10 +76,6 @@ function TodoMain() {
             infoUpdatedDispatcher(false)
         }
     }, [isAuth, navigate, infoUpdatedStatus]);
-
-    useEffect(() => {
-        receiveMessageInitializer()
-    }, []);
 
     const todos = useTodoListener();
 
@@ -110,8 +103,6 @@ function TodoMain() {
 
     const receivedStatusDispatcher = useMessageReceivedStatusDispatcher();
 
-    const message = useMessageListener()
-
 
     const TileMas = []
 
@@ -130,14 +121,14 @@ function TodoMain() {
 
     return (
         <div>
-            {messageReceived === true && <Notification message={message} buttonName={"Ok"} onButtonClick={() =>
+            {messageReceived === true && <Notification buttonName={"Ok"} onButtonClick={() =>
                 receivedStatusDispatcher(false)}></Notification>}
             <Button name={"Create Todo"} onClick={() => isBeingCreatedDispatcher()}></Button>
             <Button name={"Delete Todo/s"} onClick={() => isBeingDeletedDispatcher()}></Button>
             {isDeleting === true && <>
                 <Button name={"Submit deletion"} onClick={() => deleteTodosDispatcher()}></Button>
                 <Button name={"Cancel"} onClick={() =>
-                cancelDeletingDispatcher()}></Button>
+                    cancelDeletingDispatcher()}></Button>
             </>}
             {isCreating === true && <div><RedactingField maxTitleLenght={100}
                                                          titleText={newTodoTitle}
@@ -158,7 +149,7 @@ function TodoMain() {
             </div>)}
             <Column value={TileMas}></Column>
             <Button name="Log Out" onClick={() => logoutDispatcher()} />
-            {/*<Button name={"WebSocket"} onClick={counter}></Button>*/}
+            <Button name={"WebSocket"} onClick={counter}></Button>
         </div>
     )
 }

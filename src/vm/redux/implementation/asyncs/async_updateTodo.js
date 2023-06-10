@@ -1,5 +1,5 @@
 import {ACTIONS_CREATORS} from '../actions.js';
-import TodoServiceFactory from "../../../../core/model/service/todoService";
+import TodoServiceFactory from "../../../../core/model/service/todoService.mjs";
 
 function async_updateTodo(id, title, text, check) {
     return (dispatch, getState)=>{

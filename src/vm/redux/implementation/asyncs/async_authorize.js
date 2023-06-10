@@ -1,5 +1,5 @@
 import {ACTIONS_CREATORS} from '../actions.js';
-import UserServiceFactory from "../../../../core/model/service/userService";
+import UserServiceFactory from "../../../../core/model/service/userService.mjs";
 
 function async_authorize() {
     return (dispatch,getState)=>{
@@ -20,7 +20,7 @@ function async_authorize() {
                 })
         })();
     };
-};
+}
 
 
 function _getAuthInfo(login, password) {

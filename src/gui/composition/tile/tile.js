@@ -7,7 +7,6 @@ import ShortDescription from "../../component/short-description/short-descriptio
 function Tile({selectable, onSelectChange, date, defaultChecked, name, text, onCheck, ...props}) {
 
 
-
     return (
         <>
             {selectable === true && <CheckField onChange={onSelectChange}/>}

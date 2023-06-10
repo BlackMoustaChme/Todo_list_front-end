@@ -1,5 +1,5 @@
 import {ACTIONS_CREATORS} from '../actions.js';
-import UserServiceFactory from "../../../../core/model/service/userService";
+import UserServiceFactory from "../../../../core/model/service/userService.mjs";
 
 function async_register() {
     return (dispatch,getState)=>{

@@ -1,17 +1,17 @@
 import {ACTIONS_CREATORS} from '../actions.js';
-import TodoServiceFactory from "../../../../core/model/service/todoService.mjs";
+import NotificationServiceFactory from "../../../../core/model/service/notificationService.mjs";
 
-function async_getTodo() {
+function async_notifyServer() {
     return (dispatch,getState)=>{
-        (async ()=>{
+        (async ()=> {
             // Можно делать через ДТО объект
-            const todoService = TodoServiceFactory.createInstance();
-            todoService.getTodos()
+            const notificationService = NotificationServiceFactory.createInstance();
+            notificationService.getNumberOfCheckedTodos()
                 .then((array) => {
                     if(array !== null) {
-                        console.log("src/vm/redux/implementation/asyncs/async_getTodo.js")
+                        console.log("src/vm/redux/implementation/asyncs/async_notifyServer.js")
                         console.log(array)
-                        dispatch(ACTIONS_CREATORS.GET_TODO(array));
+                        dispatch(ACTIONS_CREATORS.NOTIFY_SERVER());
                     }
                     else {
                         dispatch(ACTIONS_CREATORS.AUTHORIZE_USER(false));
@@ -26,4 +26,4 @@ function async_getTodo() {
 
 }
 
-export default async_getTodo
+export default async_notifyServer

@@ -34,8 +34,6 @@ function Registration(props) {
     return (
         // <Provider store={Store}>
         <div>
-            {/*{isLoginStatus === false && <><ErrorSpan color="red" text="Error! Incorrect data :("/><br/></>}*/}
-            {/*{isLoginStatus === true && <><ErrorSpan color="green" text="BA WEEP GRANAH WEEP NINI BONG"/><br/></>}*/}
             <LabelTextField name="Login" type='text' onChange={(event) => loginDispatcher(event.target.value)} />
             <br/>
             <br/>

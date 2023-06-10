@@ -1,11 +1,13 @@
-import {async_getUserData, async_sendAuthData, async_sendRegistrationData} from "../../api/request";
+import {async_getUserData, async_sendAuthData, async_sendRegistrationData} from "../../api/request.mjs";
 
 class UserService {
+
+    token;
     async signIn(loginData) {
         let response = await async_sendAuthData(loginData)
         if (response.getStatus() === 200) {
             // console.log(response.getBody())
-            this.#save(loginData.login, response.getBody());
+            this.#save(response.getBody());
             return;
         }
         else {
@@ -18,7 +20,7 @@ class UserService {
         let response = await async_sendRegistrationData(signUpData)
         if (response.getStatus() === 200) {
             // console.log(response.getBody())
-            this.#save(signUpData.login, response.getBody());
+            this.#save(response.getBody());
             return;
         }
         else {
@@ -39,21 +41,19 @@ class UserService {
 
 
     logout(){
-        localStorage.removeItem('login');
-        localStorage.removeItem('token');
+        // localStorage.removeItem('token');
+        this.token = null;
     }
 
-    #save(login, token){
-        localStorage.setItem('login', login);
-        localStorage.setItem('token', token);
+    #save(token){
+        // localStorage.setItem('token', token);
+        this.token = token
     }
 
-    getLogin(){
-        return localStorage.getItem('login');
-    }
 
     getToken(){
-        return localStorage.getItem('token');
+        // return localStorage.getItem('token');
+        return this.token;
     }
 }
 

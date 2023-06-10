@@ -22,7 +22,11 @@ export const ACTIONS_TYPES = {
     POST_NEW_TODO: 'post_new_todo',
     SELECT_TODOS: 'select_todos',
     DELETE_TODOS: 'delete_todos',
-    UPDATE_TODO: 'update_todo'
+    UPDATE_TODO: 'update_todo',
+    UPDATE_RECEIVE_STATUS: "update_receive_status",
+    UPDATE_INFO_STATUS: "update_info_status",
+    NOTIFY_SERVER: "notify_server",
+    UPDATE_MESSAGE: "update_message"
 };
 
 export const  ACTIONS_CREATORS = {
@@ -94,6 +98,7 @@ export const  ACTIONS_CREATORS = {
         a.payload.isBeingDeleted = boolean;
         idMas = []
         a.payload.selectedIds = idMas
+        a.payload.infoUpdated = true;
         // a.payload.isBeingCreated = boolean;
         // a.payload.isBeingRedacted = null
         return a;
@@ -113,7 +118,9 @@ export const  ACTIONS_CREATORS = {
     POST_NEW_TODO: (array) => {
         let a = action();
         a.type = ACTIONS_TYPES.POST_NEW_TODO;
+        a.payload.isBeingCreated = false
         // a.payload.todos = array;
+        a.payload.infoUpdated = true
         return a;
     },
     SELECT_TODOS: (id, value) => {
@@ -140,7 +147,31 @@ export const  ACTIONS_CREATORS = {
         let a = action();
         a.type = ACTIONS_TYPES.UPDATE_TODO;
         // a.payload.todos.
+        a.payload.infoUpdated = true
         return a;
+    },
+    UPDATE_RECEIVE_STATUS: (boolean) => {
+        let a = action();
+        a.type = ACTIONS_TYPES.UPDATE_RECEIVE_STATUS;
+        a.payload.messageReceived = boolean;
+        return a;
+    },
+    UPDATE_INFO_STATUS: (boolean) => {
+        let a = action();
+        a.type = ACTIONS_TYPES.UPDATE_INFO_STATUS;
+        a.payload.infoUpdated = boolean;
+        return a;
+    },
+    NOTIFY_SERVER: () => {
+        let a = action();
+        a.type = ACTIONS_TYPES.NOTIFY_SERVER;
+        return a;
+    },
+    UPDATE_MESSAGE: (msg) => {
+        let a = action()
+        a.type = ACTIONS_TYPES.UPDATE_MESSAGE
+        a.payload.message = msg
+        return a
     }
 };
 

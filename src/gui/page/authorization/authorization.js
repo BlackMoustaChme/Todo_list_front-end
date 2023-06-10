@@ -36,7 +36,6 @@ function Authorization(props) {
         // <Provider store={Store}>
         <div>
             {isLoginStatus === false && <><ErrorSpan color="red" text="Error! Incorrect data :("/><br/></>}
-            {isLoginStatus === true && <><ErrorSpan color="green" text="BA WEEP GRANAH WEEP NINI BONG"/><br/></>}
             <LabelTextField name="Login" type='text' value={login} onChange={(event) => loginDispatcher(event.target.value)} />
             <br/>
             <br/>
@@ -45,7 +44,6 @@ function Authorization(props) {
             <div>
                 <Button name="Log in" onClick={() => loginStatusDispatcher()} />
                 <Button name="Registration" onClick={() => {navigate("/registration")}}></Button>
-                <Button name="Clean Up" onClick={() => {localStorage.removeItem("token")}}></Button>
             </div>
         </div>
         // </Provider>

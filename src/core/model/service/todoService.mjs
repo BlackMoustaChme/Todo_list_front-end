@@ -1,12 +1,10 @@
 import {
     async_deleteTodo,
     async_getTodoData,
-    async_getUserData,
-    async_sendAuthData,
     async_sendNewTodoData,
-    async_sendRegistrationData, async_sendUpdateTodoData
-} from "../../api/request";
-import UserServiceFactory from "./userService";
+    async_sendUpdateTodoData
+} from "../../api/request.mjs";
+import UserServiceFactory from "./userService.mjs";
 
 class TodoService {
 
@@ -21,17 +19,11 @@ class TodoService {
             default:
                 return Promise.reject();
         }
-        // if (response.getStatus() === 200) {
-        //     // console.log(response.getBody())
-        //     return response.getBody();
-        // }
-        // else {
-        //     return Promise.reject();
-        // }
     }
 
     async postTodo(todoData) {
-        let response = await async_sendNewTodoData(todoData)
+        const userService = UserServiceFactory.createInstance();
+        let response = await async_sendNewTodoData(userService.getToken(), todoData)
         switch (response.getStatus()) {
             case 200:
                 return "OK";
@@ -43,7 +35,8 @@ class TodoService {
     }
 
     async deleteTodos(todo_ids) {
-        let response = await async_deleteTodo(todo_ids)
+        const userService = UserServiceFactory.createInstance();
+        let response = await async_deleteTodo(userService.getToken(), todo_ids)
         switch (response.getStatus()) {
             case 200:
                 return "OK";
@@ -55,7 +48,8 @@ class TodoService {
     }
 
     async updateTodo(id, todoData) {
-        let response = await async_sendUpdateTodoData(id, todoData)
+        const userService = UserServiceFactory.createInstance();
+        let response = await async_sendUpdateTodoData(userService.getToken(), id, todoData)
         switch (response.getStatus()) {
             case 200:
                 return "OK";

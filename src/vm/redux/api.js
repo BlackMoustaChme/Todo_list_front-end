@@ -10,6 +10,8 @@ import async_getTodo from "./implementation/asyncs/async_getTodo";
 import async_postTodo from "./implementation/asyncs/async_postTodo";
 import async_deleteTodos from "./implementation/asyncs/async_deleteTodos";
 import async_updateTodo from "./implementation/asyncs/async_updateTodo";
+import async_notifyServer from "./implementation/asyncs/async_notifyServer";
+import async_receiveMessage from "./implementation/asyncs/async_receiveMessage";
 
 //***************************************************************
 
@@ -61,6 +63,23 @@ function useIsLoginStatusListener(){
     return useSelector((state) => state.isLoginStatus);
 }
 
+function useLoginStatusDispatcher(){
+    const dispatch = useDispatch();
+    return () => dispatch(async_authorize());
+}
+
+function useSignUpStatusDispatcher(){
+    const dispatch = useDispatch();
+    return () => dispatch(async_register());
+}
+
+function useLogoutStatusDispatcher(){
+    const dispatch = useDispatch();
+    return () => dispatch(ACTIONS_CREATORS.LOGOUT_USER(false));
+}
+
+//////////////////////////////////////////////
+
 function useTodoListener(){
     return useSelector((state) => state.todos);
 }
@@ -81,20 +100,6 @@ function useSelectedTodosListener(){
     return useSelector((state) => state.selectedIds);
 }
 
-function useLoginStatusDispatcher(){
-    const dispatch = useDispatch();
-    return () => dispatch(async_authorize());
-}
-
-function useSignUpStatusDispatcher(){
-    const dispatch = useDispatch();
-    return () => dispatch(async_register());
-}
-
-function useLogoutStatusDispatcher(){
-    const dispatch = useDispatch();
-    return () => dispatch(ACTIONS_CREATORS.LOGOUT_USER(false));
-}
 
 function useTodosDispatcher(){
     const dispatch = useDispatch();
@@ -160,6 +165,41 @@ function useSelectedTodosDispatcher(){
     const dispatch = useDispatch();
     return (id, value) => dispatch(ACTIONS_CREATORS.SELECT_TODOS(id, value));
 }
+
+/////////////////////////////////////////////////////////
+
+function useMessageReceivedStatusDispatcher() {
+    const dispatch = useDispatch();
+    return (boolean) => dispatch(ACTIONS_CREATORS.UPDATE_RECEIVE_STATUS(boolean))
+}
+
+function useMessageReceivedStatusListener() {
+    return useSelector((state) => state.messageReceived);
+}
+
+function useInfoUpdatedStatusDispatcher() {
+    const dispatch = useDispatch();
+    return (boolean) => dispatch(ACTIONS_CREATORS.UPDATE_INFO_STATUS(boolean))
+}
+
+function useInfoUpdatedStatusListener() {
+    return useSelector((state) => state.infoUpdated);
+}
+
+function useSendNotificationDispatcher() {
+    const dispatch = useDispatch();
+    return () => dispatch(async_notifyServer());
+}
+
+function useMessageListener() {
+    return useSelector((state) => state.message);
+}
+
+function useReceiveMessageInitializer() {
+    const dispatch = useDispatch();
+    return () => dispatch(async_receiveMessage());
+}
+
 //***************************************************************
 
 export {buildProvider, useLoginListener, useLoginDispatcher, usePasswordListener, usePasswordDispatcher, useEmailListener,
@@ -168,4 +208,6 @@ export {buildProvider, useLoginListener, useLoginDispatcher, usePasswordListener
     useCreatingTodoStatusDispatcher, useRedactingTodoStatusDispatcher, useNewTodoTitleListener, useNewTodoTitleDispatcher,
     useNewTodoTextListener, useNewTodoTextDispatcher, useNewTodoDispatcher, useDeletingTodoStatusDispatcher,
     useDeletingTodoCancelStatusDispatcher, useIsBeingDeletedListener, useSelectedTodosDispatcher, useSelectedTodosListener,
-    useDeleteTodosDispatcher, useTodoUpdateDispatcher}
+    useDeleteTodosDispatcher, useTodoUpdateDispatcher, useMessageReceivedStatusDispatcher, useMessageReceivedStatusListener,
+    useInfoUpdatedStatusListener, useInfoUpdatedStatusDispatcher, useSendNotificationDispatcher, useMessageListener,
+    useReceiveMessageInitializer}

@@ -1,5 +1,5 @@
 import {ACTIONS_CREATORS} from '../actions.js';
-import TodoServiceFactory from "../../../../core/model/service/todoService";
+import TodoServiceFactory from "../../../../core/model/service/todoService.mjs";
 
 function async_postTodo() {
     return (dispatch, getState)=>{
@@ -14,7 +14,7 @@ function async_postTodo() {
                     if(array !== null) {
                         console.log("src/vm/redux/implementation/asyncs/async_postTodo.js")
                         console.log(array)
-                        // dispatch(ACTIONS_CREATORS.POST_NEW_TODO(array));
+                        dispatch(ACTIONS_CREATORS.POST_NEW_TODO(array));
                     }
                     else {
                         dispatch(ACTIONS_CREATORS.AUTHORIZE_USER(false));

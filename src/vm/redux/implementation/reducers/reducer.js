@@ -1,5 +1,8 @@
 import {ACTIONS_TYPES} from '../actions.js';
-import UserServiceFactory from "../../../../core/model/service/userService";
+import UserServiceFactory from "../../../../core/model/service/userService.mjs";
+
+
+
 
 console.log(localStorage.getItem('token'))
 
@@ -18,7 +21,11 @@ const initialState = {
     isBeingDeleted: null,
     newTodoTitle:"",
     newTodoText:"",
-    selectedIds:[]
+    selectedIds:[],
+    infoUpdated: null,
+    // ----------MTODO------------
+    messageReceived: false,
+    message:""
 }
 const reducer = (state = initialState, action) => {
     switch(action.type) {
@@ -137,11 +144,45 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
-            }
+            };
+        case ACTIONS_TYPES.UPDATE_RECEIVE_STATUS:
+            console.log("ACTIONS_TYPES.UPDATE_RECEIVE_STATUS")
+            console.log("state = ", state)
+            console.log("action.payload = ", action.payload)
+            return {
+                ...state,
+                ...action.payload
+            };
+        case ACTIONS_TYPES.UPDATE_INFO_STATUS:
+            console.log("ACTIONS_TYPES.UPDATE_INFO_STATUS")
+            console.log("state = ", state)
+            console.log("action.payload = ", action.payload)
+            return {
+                ...state,
+                ...action.payload
+            };
+        case ACTIONS_TYPES.NOTIFY_SERVER:
+            console.log("ACTIONS_TYPES.NOTIFY_SERVER")
+            console.log("state = ", state)
+            console.log("action.payload = ", action.payload)
+            return {
+                ...state,
+                ...action.payload
+            };
+        case ACTIONS_TYPES.UPDATE_MESSAGE:
+            console.log("ACTIONS_TYPES.NOTIFY_SERVER")
+            console.log("state = ", state)
+            console.log("action.payload = ", action.payload)
+            return {
+                ...state,
+                messageReceived: true,
+                ...action.payload
+
+            };
         default:
             return state;
+
     }
 };
-// let user = new User('log', '', 'o');
 
 export default reducer;

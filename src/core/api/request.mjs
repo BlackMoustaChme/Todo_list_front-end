@@ -1,16 +1,16 @@
-import {Response} from "./response.js";
+import {Response} from "./response.mjs";
 
 const protocol = "http";
 const host = "localhost";
 const port = "8080";
-const name = "todo_list-110345518952587290388.0-SNAPSHOT";
+const name = "todo_list-116555153447152215466.0-SNAPSHOT";
 const domain = `${protocol}://${host}:${port}/${name}`;
 
 async function _sendRequest(type, uri, options, data) {//options для передачи header'ов
     let request;
     let headers = {
         "Content-type": "application/json; charset=utf-8",
-        "Authorization": localStorage.getItem("token")
+        // "Authorization": localStorage.getItem("token")
     }
 
     if (options != undefined || options != null) {//проверка options обращать внимание на передаваемое null или не null
@@ -49,9 +49,6 @@ async function _sendRequest(type, uri, options, data) {//options для пере
 
 }
 
-export async function async_getUserCars() {
-    return await _sendRequest("get", "api/cars/", {"Login": localStorage.getItem("login")});
-}
 
 //надо передавать ДТО юзера
 export async function async_auth(User) {
@@ -76,19 +73,6 @@ export async function async_auth(User) {
     return await _sendRequest("post", "api/user/authorization", null, data);
 }
 
-//надо передавать ДТО юзера
-export async function async_registration(User) {
-    return await _sendRequest("post", "api/user/registration", null, User);
-}
-
-//надо передавать ДТО машины
-export async function async_addCar(Car) {
-    return await _sendRequest("post", "api/cars/", {"Login": localStorage.getItem("login")}, Car);
-}
-
-export async function async_deleteAllCars() {
-    return await _sendRequest("delete", "api/cars/", {"Login": localStorage.getItem("login")})
-}
 
 export async function async_deleteCar(cars_id) {
     return await _sendRequest("delete", "api/cars/car/", null, cars_id)
@@ -104,9 +88,9 @@ export async function async_sendRegistrationData(signUpData) {
     return await _sendRequest("post", `${domain}/api/user/registration`, null, signUpData);
 }
 
-export async function async_getUserData() {
+export async function async_getUserData(token) {
 
-    return await _sendRequest("get", `${domain}/api/user/`, {"Token": localStorage.getItem('token')});
+    return await _sendRequest("get", `${domain}/api/user/`, {"Token": token});
 }
 
 export async function async_getTodoData(token) {
@@ -114,17 +98,22 @@ export async function async_getTodoData(token) {
     return await _sendRequest("get", `${domain}/api/todo/`, {"Token": token});
 }
 
-export async function async_sendNewTodoData(todoData) {
+export async function async_sendNewTodoData(token, todoData) {
 
-    return await _sendRequest("post", `${domain}/api/todo/`, {"Token": localStorage.getItem('token')}, todoData);
+    return await _sendRequest("post", `${domain}/api/todo/`, {"Token": token}, todoData);
 }
 
-export async function async_deleteTodo(todo_id) {
+export async function async_deleteTodo(token, todo_id) {
 
-    return await _sendRequest("delete", `${domain}/api/todo/deletion`, {"Token": localStorage.getItem('token'), "Data": JSON.stringify(todo_id)});
+    return await _sendRequest("delete", `${domain}/api/todo/deletion`, {"Token": token, "Data": JSON.stringify(todo_id)});
 }
 
-export async function async_sendUpdateTodoData(id, todoData) {
+export async function async_sendUpdateTodoData(token, id, todoData) {
 
-    return await _sendRequest("put", `${domain}/api/todo/?id=${id}`, {"Token": localStorage.getItem('token')}, todoData);
+    return await _sendRequest("put", `${domain}/api/todo/?id=${id}`, {"Token": token}, todoData);
+}
+
+export async function async_getNumberOfCheckedTodos(token, wsId) {
+
+    return await  _sendRequest("get", `${domain}/api/todo/notifications`, {"Token": token, "ClientId": wsId})
 }
